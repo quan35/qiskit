@@ -1,0 +1,9 @@
+qiskit>=0.42.0
+qiskit-aer>=0.12.0
+matplotlib>=3.5.0
+numpy>=1.21.0
+pylatexenc>=2.10 # 用于 qc.draw('mpl')
+# tkinter是Python标准库的一部分，不能通过pip安装
+# 对于Linux系统：sudo apt-get install python3-tk (Ubuntu/Debian)
+# 对于Windows系统：通常已包含在Python安装中
+# 对于macOS系统：brew install python-tk (使用Homebrew)
