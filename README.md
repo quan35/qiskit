@@ -52,6 +52,33 @@
 
 一种利用量子纠缠和经典通信将量子状态从一个位置传送到另一个位置的协议，而无需在两地之间物理传输量子比特。
 
+## 项目结构
+
+本项目采用模块化设计，结构清晰，便于扩展和维护：
+
+```text
+qiskit/
+├── main.py                 # 应用程序入口，启动GUI
+├── README.md               # 项目说明文档
+├── requirements.txt        # 依赖库列表
+├── task.md                 # 任务与开发进度追踪
+├── quantum_descriptions.py # 量子游戏及演示的文字说明
+├── quantum_logic/          # 量子算法与核心逻辑模块
+│   ├── __init__.py
+│   ├── games.py            # 量子游戏与演示主逻辑类
+│   └── __pycache__/
+├── ui/                     # 图形界面相关代码
+│   ├── __init__.py
+│   ├── main_window.py      # 主界面与控件布局
+│   └── __pycache__/
+├── .git/                   # Git版本控制文件夹
+├── .gitignore
+├── .trae/                  # (如无用可移除)
+└── __pycache__/            # Python缓存
+```
+
+> 说明：所有量子游戏与演示均通过 `QuantumGames` 类统一管理，界面与逻辑解耦，便于后续拓展新游戏。
+
 ## 安装指南
 
 1. 确保已安装 Python 3.7 或更高版本。
@@ -75,17 +102,3 @@ python main.py
 *   右侧是可视化区域，用于显示量子电路图和结果直方图。
 
 点击按钮开始相应的演示。
-
-## 扩展项目的想法
-
-- 添加更多基于量子算法的游戏（如 Grover 搜索、量子傅里叶变换）
-- 改进可视化，添加量子状态的布洛赫球表示
-- 创建量子版本的经典游戏（如量子井字棋、量子战舰等）
-- 连接到真实的量子计算机运行游戏（使用 IBM Quantum Experience）
-
-## 量子编程资源
-
-- [IBM Quantum Experience](https://quantum-computing.ibm.com/)
-- [Qiskit 教程](https://qiskit.org/documentation/tutorials.html)
-- [量子计算入门](https://quantumcomputing.stackexchange.com/)
-- [量子算法动画演示](https://algassert.com/quantum)

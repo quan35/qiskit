@@ -141,6 +141,18 @@ class QuantumGames:
         # The calling GUI function will display them.
         pass # Placeholder - requires detailed check
 
+    def create_coin_circuit(self):
+        """
+        创建一个量子猜硬币实验的电路：
+        对一个量子比特应用H门（Hadamard门），使其进入|0⟩和|1⟩的叠加态，然后测量。
+        返回QuantumCircuit对象。
+        """
+        from qiskit import QuantumCircuit
+        qc = QuantumCircuit(1, 1)
+        qc.h(0)  # Hadamard门：叠加
+        qc.measure(0, 0)  # 测量
+        return qc
+
     # ---------- Game Flows (Refactored for GUI) ----------
 
     # --- Coin Game --- 
@@ -150,11 +162,9 @@ class QuantumGames:
             return
         self.gui_output("--- 量子猜硬币游戏 ---\n")
         self.gui_output("我们将抛掷1000次量子硬币 (Hadamard门+测量)，统计0/1出现次数。\n")
-        from qiskit import QuantumCircuit, transpile
+        from qiskit import transpile
         from qiskit.visualization import plot_histogram
-        qc = QuantumCircuit(1, 1)
-        qc.h(0)
-        qc.measure(0, 0)
+        qc = self.create_coin_circuit()
         compiled_circuit = transpile(qc, self.simulator)
         job = self.simulator.run(compiled_circuit, shots=1000)
         counts = job.result().get_counts(compiled_circuit)
@@ -162,7 +172,6 @@ class QuantumGames:
         count_1 = counts.get('1', 0)
         self.gui_output(f"实验统计结果：\n  0（正面）：{count_0} 次\n  1（反面）：{count_1} 次\n")
         from matplotlib.figure import Figure
-        # 绘制直方图和电路图
         figs = []
         if self.gui_display_plots:
             # 直方图

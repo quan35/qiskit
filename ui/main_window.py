@@ -26,6 +26,13 @@ class QuantumGameApp:
     def __init__(self, root):
         self.root = root
         self.root.title("量子游戏与演示")
+        self.root.configure(bg="#f5f7fa")  # 主窗口背景色
+        # 设置全局字体
+        self.root.option_add("*Font", "微软雅黑 11")
+        # 增加顶部标题栏
+        title_label = tk.Label(self.root, text="量子游戏集合 Quantum Games", font=("微软雅黑", 18, "bold"), fg="#2d3a4b", bg="#f5f7fa", pady=12)
+        title_label.pack(side=tk.TOP, fill=tk.X)
+        # 主frame下移，避免与标题重叠
         # self.root.geometry("800x700") # Optional: Increase height for multiple plots
 
         # --- Game Logic Instance ---
@@ -40,8 +47,8 @@ class QuantumGameApp:
         self.plot_canvas_widgets = [] # NEW: List to hold multiple plot canvases
 
         # --- Main Frame using grid layout ---
-        main_frame = tk.Frame(self.root)
-        main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        main_frame = tk.Frame(self.root, bg="#f5f7fa")
+        main_frame.pack(fill=tk.BOTH, expand=True, padx=15, pady=(0,15))
         main_frame.columnconfigure(0, weight=0) 
         main_frame.columnconfigure(1, weight=1)  # 右侧整体
 
@@ -54,10 +61,6 @@ class QuantumGameApp:
 
         # 主frame底部说明区权重
         main_frame.rowconfigure(2, weight=0)
-
-        # --- Control frame (Left - Column 0) ---
-        control_frame = tk.LabelFrame(main_frame, text="控制面板", padx=10, pady=10)
-        control_frame.grid(row=0, column=0, rowspan=3, padx=(0, 5), pady=0, sticky="nsew") 
 
         # --- Control frame (Left - Column 0) ---
         control_frame = tk.LabelFrame(main_frame, text="控制面板", padx=10, pady=10)
@@ -83,9 +86,9 @@ class QuantumGameApp:
                         self.description_var.set(info)
                     self.run_game(cmd)
                 return callback
-            button = tk.Button(control_frame, text=text, command=make_callback(), width=25)
-            button.pack(pady=3, fill=tk.X)
-
+            button = tk.Button(control_frame, text=text, command=make_callback(), width=25,
+                              bg="#4f8cff", fg="white", activebackground="#2d3a4b", activeforeground="white", relief=tk.FLAT, bd=2, highlightthickness=0)
+            button.pack(pady=6, fill=tk.X, ipadx=2, ipady=2)
 
         # Game Buttons (Using standardized names)
         game_buttons = {
@@ -103,31 +106,31 @@ class QuantumGameApp:
                         self.description_var.set(info)
                     self.run_game(cmd)
                 return callback
-            button = tk.Button(control_frame, text=text, command=make_coin_callback(), width=25)
-            button.pack(pady=3, fill=tk.X)
-
+            button = tk.Button(control_frame, text=text, command=make_coin_callback(), width=25,
+                              bg="#00bfae", fg="white", activebackground="#2d3a4b", activeforeground="white", relief=tk.FLAT, bd=2, highlightthickness=0)
+            button.pack(pady=8, fill=tk.X, ipadx=2, ipady=2)
 
         # --- Output Area (Right-Top - Column 1, Row 0) ---
-        output_frame = tk.LabelFrame(right_frame, text="输出信息", padx=5, pady=5)
-        output_frame.grid(row=0, column=0, sticky="nsew", padx=0, pady=(0,5))
+        output_frame = tk.LabelFrame(right_frame, text="输出信息", padx=8, pady=8, bg="#f9fafc", fg="#2d3a4b", font=("微软雅黑", 11, "bold"), bd=2, relief=tk.GROOVE)
+        output_frame.grid(row=0, column=0, sticky="nsew", padx=0, pady=(0,8))
         output_frame.rowconfigure(0, weight=1)
         output_frame.columnconfigure(0, weight=1)
 
-        self.output_text = scrolledtext.ScrolledText(output_frame, wrap=tk.WORD, height=10, width=60, state='disabled')
+        self.output_text = scrolledtext.ScrolledText(output_frame, wrap=tk.WORD, height=10, width=60, state='disabled', bg="#f9fafc", fg="#2d3a4b", bd=1, relief=tk.FLAT)
         self.output_text.grid(row=0, column=0, sticky="nsew")
 
         # --- Description Area (底部横跨) ---
-        description_frame = tk.LabelFrame(main_frame, text="算法说明", padx=5, pady=5)
-        description_frame.grid(row=2, column=0, columnspan=2, sticky="ew", padx=5, pady=(0,5))
+        description_frame = tk.LabelFrame(main_frame, text="算法说明", padx=8, pady=8, bg="#f9fafc", fg="#2d3a4b", font=("微软雅黑", 11, "bold"), bd=2, relief=tk.GROOVE)
+        description_frame.grid(row=2, column=0, columnspan=2, sticky="ew", padx=8, pady=(0,8))
         description_frame.rowconfigure(0, weight=1)
         description_frame.columnconfigure(0, weight=1)
         self.description_var = tk.StringVar()
-        self.description_label = tk.Label(description_frame, textvariable=self.description_var, justify="left", anchor="nw", wraplength=700)
+        self.description_label = tk.Label(description_frame, textvariable=self.description_var, justify="left", anchor="nw", wraplength=700, bg="#f9fafc", fg="#2d3a4b")
         self.description_label.grid(row=0, column=0, sticky="ew")
 
         # --- Visualization Area (Right-Bottom - Column 1, Row 2) ---
-        self.plot_frame = tk.LabelFrame(right_frame, text="可视化区域", padx=5, pady=5)
-        self.plot_frame.grid(row=2, column=0, padx=(5, 0), pady=(0, 5), sticky="nsew")
+        self.plot_frame = tk.LabelFrame(right_frame, text="可视化区域", padx=8, pady=8, bg="#f9fafc", fg="#2d3a4b", font=("微软雅黑", 11, "bold"), bd=2, relief=tk.GROOVE)
+        self.plot_frame.grid(row=2, column=0, padx=(8, 0), pady=(0, 8), sticky="nsew")
         self.plot_frame.grid_rowconfigure(0, weight=1)
         self.plot_frame.grid_columnconfigure(0, weight=1)
 
@@ -158,8 +161,8 @@ class QuantumGameApp:
 
         
         # --- Exit Button (Bottom - Spanning Columns, Row 3) ---
-        self.exit_button = tk.Button(main_frame, text="退出", command=self.root.quit, bg="#333333", fg="white")
-        self.exit_button.grid(row=3, column=0, columnspan=2, pady=(5, 0), sticky="ew")
+        self.exit_button = tk.Button(main_frame, text="退出", command=self.root.quit, bg="#e74c3c", fg="white", font=("微软雅黑", 12, "bold"), relief=tk.FLAT, bd=2, highlightthickness=0, activebackground="#c0392b")
+        self.exit_button.grid(row=3, column=0, columnspan=2, pady=(10, 0), sticky="ew")
 
         # --- Game Logic Initialization Callbacks (Update this if method names changed in QuantumGames) ---
         # Pass the new display_plots_list method
